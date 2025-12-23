@@ -99,7 +99,7 @@
         }
 
         .sidebar-header {
-            padding: 10px 20px;
+            padding: 30px 20px;
             font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -206,20 +206,12 @@
             position: relative;
         }
 
-        /* Floating Socials in Body (Top Right) */
-        .body-socials {
-            position: fixed;
-            top: 60px;
-            /* Below top bar */
-            right: 40px;
-            z-index: 100;
+        /* Floating Socials in Body (Top Right) - REMOVED/CHANGED to INLINE */
+        .inline-socials {
             display: flex;
-            gap: 20px;
-            background: rgba(30, 30, 30, 0.8);
-            backdrop-filter: blur(5px);
-            padding: 10px 15px;
-            border-radius: 50px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            gap: 15px;
+            margin-top: 10px;
+            /* No longer fixed */
         }
 
         .social-link {
@@ -243,11 +235,32 @@
 
         /* --- 2. Visual Content Styling --- */
         h1 {
-            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            line-height: 1.1;
+        }
+
+        .giant-text {
+            font-size: 7rem;
+            /* Massive text */
             font-weight: 800;
             color: white;
-            margin-bottom: 1rem;
-            line-height: 1.1;
+            letter-spacing: -3px;
+            margin-bottom: 10px;
+        }
+
+        .name-anchor {
+            position: relative;
+            display: inline-block;
+            white-space: nowrap;
+        }
+
+        .subtitle-text {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--highlight);
+            /* Blue */
+            margin-bottom: 2rem;
+            display: block;
         }
 
         h2 {
@@ -296,12 +309,17 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            padding-left: 5vw;
+            /* Wider left margin */
+            padding-bottom: 15vh;
+            /* Shift visual center up */
         }
 
         .accent-text {
             color: var(--accent);
         }
 
+        /* Projects Section */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -309,6 +327,7 @@
             width: 100%;
         }
 
+        /* Changed from 'a' to 'div' base styling */
         .project-card {
             background-color: #2d2d2d;
             border: 1px solid var(--border-color);
@@ -317,7 +336,6 @@
             display: flex;
             flex-direction: column;
             transition: all 0.3s ease;
-            text-decoration: none;
             position: relative;
             overflow: hidden;
         }
@@ -338,13 +356,21 @@
             font-size: 1rem;
             color: #aaa;
             margin-bottom: 20px;
+            flex: 1;
+            /* Pushes footer down */
+        }
+
+        .project-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .project-tags {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
-            margin-top: auto;
         }
 
         .tag {
@@ -356,6 +382,22 @@
             color: var(--accent);
         }
 
+        .project-links {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-btn {
+            color: #bbb;
+            transition: color 0.2s;
+            text-decoration: none;
+        }
+
+        .icon-btn:hover {
+            color: white;
+        }
+
+        /* Skills Section */
         .skills-container {
             display: flex;
             flex-wrap: wrap;
@@ -554,20 +596,62 @@
             }
 
             .body-socials {
-                top: 60px;
+                top: 90px;
                 right: 20px;
                 gap: 10px;
             }
 
-            h1 {
-                font-size: 2.5rem;
+            h1,
+            .giant-text {
+                font-size: 3rem;
             }
 
             .projects-grid {
                 grid-template-columns: 1fr;
             }
         }
+
+        /* Hanging Frog Style */
+        .frog-wrapper {
+            position: absolute;
+            top: -100px;
+            /* Adjusted for 7rem text */
+            left: 100%;
+            margin-left: 20px;
+            right: auto;
+            width: 180px;
+            z-index: 10;
+            pointer-events: auto;
+        }
+
+        #hanging-frog {
+            width: 100%;
+            height: auto;
+            display: block;
+            /* transform-origin: center center;  Standard pivot for a sticker */
+            transform-origin: 50% 10%;
+            /* Slight top bias feels better for 'dangling' while held */
+            cursor: grab;
+            /* Initial state: "On the paper" */
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+            transition: filter 0.2s, transform 0.2s;
+        }
+
+        #hanging-frog.lifting {
+            cursor: grabbing;
+            /* "Lifted" state */
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.4));
+            transform: scale(1.05);
+            /* Slight lift */
+        }
     </style>
+    <!-- GSAP Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/Draggable.min.js"></script>
+    <!-- InertiaPlugin is a Club GreenSock perk. Draggable's inertia feature requires it. 
+         If you have a local copy, link it here. For now, we attempt to use it or fallback gracefully. 
+         Using a trial link for dev purposes if available, else standard Draggable behavior. -->
+    <script src="https://assets.codepen.io/16327/InertiaPlugin.min.js"></script>
 </head>
 
 <body>
@@ -599,7 +683,7 @@
         <!-- Sidebar -->
         <div class="sidebar" id="main-sidebar">
             <div class="sidebar-header">
-                Portfolio Explorer
+                Ian Choe's portfolio
                 <span class="sidebar-close" onclick="toggleSidebar()">×</span>
             </div>
             <div id="file-list">
@@ -630,46 +714,57 @@
             <!-- Content Area with absolute Socials -->
             <div class="content-area">
 
-                <div class="body-socials">
-                    <a href="https://github.com/froggo23" target="_blank" class="social-link" title="GitHub">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path
-                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                            </path>
-                        </svg>
-                    </a>
-                    <a href="https://www.linkedin.com/in/ian-choe-9615503a1/" target="_blank" class="social-link"
-                        title="LinkedIn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
-                            </path>
-                            <rect x="2" y="9" width="4" height="12"></rect>
-                            <circle cx="4" cy="4" r="2"></circle>
-                        </svg>
-                    </a>
-                    <a href="https://www.instagram.com/ianchoe09/" target="_blank" class="social-link"
-                        title="Instagram">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                        </svg>
-                    </a>
-                </div>
+                <!-- Socials removed from here -->
 
                 <!-- ABOUT VIEW -->
-                <div id="view-About" class="view-section active">
-                    <div class="about-hero">
-                        <h1>Hi, I'm <span class="accent-text">Ian Choe.</span></h1>
-                        <h2>Full Stack Developer</h2>
+                <div id="view-About" class="view-section active" style="position: relative;">
+                    <div class="about-hero" style="position: relative; max-width: 800px;">
+                        <h1 class="giant-text">
+                            Hey, I'm <span class="name-anchor accent-text">Ian Choe.
+                                <div class="frog-wrapper">
+                                    <img src="img/FrogSticker.png" id="hanging-frog" alt="Hanging Frog"
+                                        draggable="false">
+                                </div>
+                            </span>
+                        </h1>
+                        <h2 class="subtitle-text">Web Developer</h2>
                         <p>
-                            I build accessible, pixel-perfect, and performant web experiences.
-                            Currently focused on migrating legacy Java systems to modern Next.js architectures.
+                            I like to build things. I also like frogs.
+                            Currently learning next.js.
                         </p>
                         <p style="font-size: 0.95rem; color: #888;">
                             Email me at: <a href="mailto:toponfrog23@gmail.com"
                                 class="email-link">toponfrog23@gmail.com</a>
                         </p>
+
+                        <!-- Socials Moved Here -->
+                        <div class="inline-socials" style="margin-bottom: 20px;">
+                            <a href="https://github.com/froggo23" target="_blank" class="social-link" title="GitHub">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                    </path>
+                                </svg>
+                            </a>
+                            <a href="https://www.linkedin.com/in/ian-choe-9615503a1/" target="_blank"
+                                class="social-link" title="LinkedIn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path
+                                        d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
+                                    </path>
+                                    <rect x="2" y="9" width="4" height="12"></rect>
+                                    <circle cx="4" cy="4" r="2"></circle>
+                                </svg>
+                            </a>
+                            <a href="https://www.instagram.com/ianchoe09/" target="_blank" class="social-link"
+                                title="Instagram">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg>
+                            </a>
+                        </div>
                         <div style="margin-top:20px;">
                             <a href="#" class="btn-primary" onclick="openFile('Projects')">View My Work</a>
                         </div>
@@ -680,37 +775,196 @@
                 <div id="view-Projects" class="view-section">
                     <h2>Selected Works</h2>
                     <div class="projects-grid">
-                        <a href="https://github.com/froggo23/RateKis" target="_blank" class="project-card">
+
+                        <!-- RankMyArt -->
+                        <div class="project-card">
+                            <h3>RankMyArt</h3>
+                            <p>An interactive art gallery platform. Co-developed with <a
+                                    href="https://github.com/jnoh27" target="_blank"
+                                    style="color:var(--highlight); text-decoration:underline;">jnoh27</a>. Database
+                                through Neon, deploying
+                                Spring backend to AWS EC2.</p>
+                            <div class="project-footer">
+                                <div class="project-tags">
+                                    <span class="tag">Java</span>
+                                    <span class="tag">Spring Boot</span>
+                                    <span class="tag">AWS S3/EC2</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/Froggo23/rankmyart" target="_blank" class="icon-btn"
+                                        title="Code">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path
+                                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <a href="http://ec2-3-35-27-102.ap-northeast-2.compute.amazonaws.com:8080/gallery"
+                                        target="_blank" class="icon-btn" title="Live Demo">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+                                            </path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Board -->
+                        <div class="project-card">
+                            <h3>Board</h3>
+                            <p>Simple community hub without a specific topic. Databse through Supabase, hosted with
+                                Render.</p>
+                            <div class="project-footer">
+                                <div class="project-tags">
+                                    <span class="tag">Java</span>
+                                    <span class="tag">Spring Boot</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/Froggo23/board" target="_blank" class="icon-btn"
+                                        title="Code">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path
+                                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <a href="https://board-6v8w.onrender.com/board" target="_blank" class="icon-btn"
+                                        title="Live Demo">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+                                            </path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- RedScreen -->
+                        <div class="project-card">
+                            <h3>RedScreen</h3>
+                            <p>A productiivty chrome extension that blocks distracting websites.</p>
+                            <div class="project-footer">
+                                <div class="project-tags">
+                                    <span class="tag">Java</span>
+                                    <span class="tag">Spdcwring Boot</span>
+                                    <span class="tag">REST API</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/Froggo23/currency-exchange-rate" target="_blank" class="icon-btn"
+                                        title="Code">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path
+                                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <a href="https://chromewebstore.google.com/detail/fhjlkjdeljaknfllnnlbdnkekdidgiid" target="_blank" class="icon-btn"
+                                        title="Live Demo">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+                                            </path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CurrencyApp -->
+                        <div class="project-card">
+                            <h3>CurrencyApp</h3>
+                            <p>Simple currency converter application using Spring Boot and REST APIs.</p>
+                            <div class="project-footer">
+                                <div class="project-tags">
+                                    <span class="tag">Java</span>
+                                    <span class="tag">Spring Boot</span>
+                                    <span class="tag">REST API</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/Froggo23/currency-exchange-rate" target="_blank" class="icon-btn"
+                                        title="Code">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path
+                                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                    <a href="https://docs.google.com/presentation/d/1ugofMW4mDSbuqaa7X_iaSngpxg02oScxYVwt313fJy4/edit?usp=sharing" target="_blank" class="icon-btn"
+                                        title="Live Demo">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6">
+                                            </path>
+                                            <polyline points="15 3 21 3 21 9"></polyline>
+                                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- RateKis -->
+                        <div class="project-card">
                             <h3>RateKis</h3>
-                            <p>A comprehensive teacher rating platform built with Domain-Driven Design principles.
-                                Features anonymous reviews and robust search.</p>
-                            <div class="project-tags">
-                                <span class="tag">Java</span>
-                                <span class="tag">Spring Boot</span>
-                                <span class="tag">Thymeleaf</span>
+                            <p>A teacher rating platform for students in Korea International School.</p>
+                            <div class="project-footer">
+                                <div class="project-tags">
+                                    <span class="tag">Java</span>
+                                    <span class="tag">Spring Boot</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="https://github.com/froggo23/RateKis" target="_blank" class="icon-btn"
+                                        title="Code">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path
+                                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
-                        </a>
-                        <a href="#" class="project-card">
-                            <h3>ArtGallery v2</h3>
-                            <p>Migrating a monolithic Spring backend to a serverless Next.js architecture with Supabase.
-                                Handling image optimization and auth.</p>
-                            <div class="project-tags">
-                                <span class="tag">Next.js</span>
-                                <span class="tag">Supabase</span>
-                                <span class="tag">React</span>
-                            </div>
-                        </a>
-                        <a href="#" class="project-card">
+                        </div>
+
+                        <!-- Portfolio -->
+                        <div class="project-card">
                             <h3>Portfolio.js</h3>
-                            <p>This website! A unique experiment combining a Code Editor UI with a rich, visual
-                                portfolio experience.</p>
-                            <div class="project-tags">
-                                <span class="tag">HTML/CSS</span>
-                                <span class="tag">Design</span>
+                            <p>This experimental Code-Editor Portfolio.</p>
+                            <div class="project-footer">
+                                <div class="project-tags">
+                                    <span class="tag">HTML/CSS/JS</span>
+                                    <span class="tag">Design</span>
+                                </div>
+                                <div class="project-links">
+                                    <a href="#" class="icon-btn" title="Code">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                            stroke="currentColor" stroke-width="2">
+                                            <path
+                                                d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                                            </path>
+                                        </svg>
+                                    </a>
+                                </div>
                             </div>
-                        </a>
+                        </div>
+
                     </div>
                 </div>
+
 
                 <!-- SKILLS VIEW -->
                 <div id="view-Skills" class="view-section">
@@ -719,27 +973,26 @@
                         <div class="skill-group">
                             <h3>Frontend</h3>
                             <ul class="skill-list">
-                                <li>React / Next.js</li>
-                                <li>TypeScript</li>
+                                <li>HTML5 & CSS3</li>
+                                <li>JavaScript</li>
                                 <li>Tailwind CSS</li>
-                                <li>HTML5 & UI Design</li>
+                                <li>React / Next.js</li>
                             </ul>
                         </div>
                         <div class="skill-group">
                             <h3>Backend</h3>
                             <ul class="skill-list">
                                 <li>Java / Spring Boot</li>
-                                <li>Node.js</li>
-                                <li>PostgreSQL / Supabase</li>
+                                <li>MySQL /PostgreSQL</li>
                                 <li>REST APIs</li>
                             </ul>
                         </div>
                         <div class="skill-group">
                             <h3>Tools & DevOps</h3>
                             <ul class="skill-list">
-                                <li>Git & GitHub</li>
                                 <li>AWS (S3, EC2)</li>
-                                <li>Docker</li>
+                                <li>Jenkins / Github Webhook</li>
+                                <li>Git & GitHub</li>
                                 <li>IntelliJ / VS Code</li>
                             </ul>
                         </div>
@@ -927,6 +1180,63 @@
         // Init
         renderTabs();
         renderView();
+
+        // --- Hanging Frog Interaction (Dynamic Sticker) ---
+        // Verify GSAP is loaded
+        if (typeof gsap !== 'undefined' && typeof Draggable !== 'undefined') {
+            gsap.registerPlugin(Draggable);
+            if (typeof InertiaPlugin !== 'undefined') {
+                gsap.registerPlugin(InertiaPlugin);
+            }
+
+            const frog = document.getElementById('hanging-frog');
+            // Using a proxy or directly the element. 
+            // For X/Y drag with rotation, we can drag the element itself.
+            let velocityTracker = { x: 0 }; // To track velocity manually if needed, or use InertiaPlugin's tracker
+
+            if (frog) {
+                Draggable.create(frog, {
+                    type: "x,y",
+                    inertia: true,
+                    edgeResistance: 0.5,
+                    bounds: "#view-About", // Keep it within the about section
+                    onPress: function () {
+                        // "Lift" the frog
+                        frog.classList.add('lifting');
+                        // Quick animation to 'lift' visuals if class transition isn't enough
+                        gsap.to(frog, { scale: 1.05, duration: 0.2, overwrite: "auto" });
+                    },
+                    onDrag: function () {
+                        // Calculate rotation based on X velocity
+                        // this.deltaX is change per frame. 
+                        // We want a max rotation of e.g. 45 degrees.
+                        // Sensitivity factor:
+                        let rotation = gsap.utils.clamp(-60, 60, this.deltaX * 5);
+
+                        gsap.to(frog, {
+                            rotation: rotation,
+                            duration: 0.3,
+                            ease: "power1.out",
+                            overwrite: "auto"
+                        });
+                    },
+                    onDragEnd: function () {
+                        // "Land" the frog
+                        frog.classList.remove('lifting');
+
+                        // Swing back to flat (0) with a "thud" or settling damp
+                        gsap.to(frog, {
+                            rotation: 0,
+                            scale: 1,
+                            duration: 0.5,
+                            ease: "elastic.out(1, 0.4)" // Small bounce/wobble on land
+                        });
+                    }
+                });
+            }
+        } else {
+            console.warn("GSAP not loaded.");
+        }
 
     </script>
 </body>
